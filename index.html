@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affine Şifreleme Aracı</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                <h1>Affine Şifreleme</h1>
+            </div>
+        </header>
+
+        <main>
+            <div class="content-wrapper">
+                <div class="info-section">
+                    <h2>Affine Şifrelemesi Nedir?</h2>
+                    <div class="algorithm-explanation">
+                        <p>Affine şifrelemesi, her harfi matematiksel bir formülle dönüştüren bir şifreleme yöntemidir.</p>
+                        
+                        <div class="formula-box">
+                            <h3>Şifreleme Formülü</h3>
+                            <code>E(x) = (a * x + b) mod m</code>
+                            <h3>Çözme Formülü</h3>
+                            <code>D(x) = a⁻¹ * (y - b) mod m</code>
+                        </div>
+                        
+                        <div class="warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p><strong>x</strong> değeri, harfin alfabedeki konumudur.</p>
+                        </div>
+
+                        <div class="warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p><strong>a</strong> değeri, alfabedeki toplam harf sayısı ile aralarında asal olmalıdır.</p>
+                        </div>
+
+                        <div class="warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p><strong>b</strong> değeri, herhangi bir tam sayı olabilir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tools-section">
+                    <div class="tool-container">
+                        <div class="tool-header">
+                            <i class="fas fa-lock"></i>
+                            <h2>Şifreleme Aracı</h2>
+                        </div>
+                        <form id="sifreleme-formu">
+                            <textarea id="sifreleme-metin" placeholder="Şifrelenecek metni buraya yazın..." rows="4"></textarea>
+                            
+                            <div class="input-group">
+                                <div class="input-wrapper">
+                                    <label for="a-deger">a Değeri:</label>
+                                    <input type="number" id="a-deger" min="1" max="29" placeholder="a">
+                                </div>
+                                
+                                <div class="input-wrapper">
+                                    <label for="b-deger">b Değeri:</label>
+                                    <input type="number" id="b-deger" min="0" max="28" placeholder="b">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="encrypt-btn">
+                                    <i class="fas fa-lock"></i> Şifrele
+                                </button>
+                                <button type="button" id="rastgele-a-b-sifreleme" class="random-btn">
+                                    <i class="fas fa-random"></i> Rastgele A/B
+                                </button>
+                                <button type="button" id="adim-adim-sifreleme" class="steps-btn">
+                                    <i class="fas fa-list-ol"></i> Adım Adım Açıklama
+                                </button>
+                            </div>
+                            
+                            <div class="result-container">
+                                <div id="sifreleme-sonuc" class="result-box"></div>
+                                <button type="button" id="kopyala-sifreleme" class="copy-btn">
+                                    <i class="fas fa-copy"></i> Kopyala
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tool-container">
+                        <div class="tool-header">
+                            <i class="fas fa-unlock"></i>
+                            <h2>Çözme Aracı</h2>
+                        </div>
+                        <form id="cozme-formu">
+                            <textarea id="cozme-metin" placeholder="Çözülecek şifreli metni buraya yazın..." rows="4"></textarea>
+                            
+                            <div class="input-group">
+                                <div class="input-wrapper">
+                                    <label for="a-deger-cozme">a Değeri:</label>
+                                    <input type="number" id="a-deger-cozme" min="1" max="29" placeholder="a">
+                                </div>
+                                
+                                <div class="input-wrapper">
+                                    <label for="b-deger-cozme">b Değeri:</label>
+                                    <input type="number" id="b-deger-cozme" min="0" max="28" placeholder="b">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="decrypt-btn">
+                                    <i class="fas fa-unlock-alt"></i> Çöz
+                                </button>
+                                <button type="button" id="adim-adim-cozme" class="steps-btn">
+                                    <i class="fas fa-list-ol"></i> Adım Adım Açıklama
+                                </button>
+                            </div>
+                            
+                            <div class="result-container">
+                                <div id="cozme-sonuc" class="result-box"></div>
+                                <button type="button" id="kopyala-cozme" class="copy-btn">
+                                    <i class="fas fa-copy"></i> Kopyala
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="developers">
+                <h3>Proje Ekibi</h3>
+                <ul>
+                    <li>Cavit Furkan Tekeli</li>
+                    <li>Yasin Kala</li>
+                    <li>Furkan Kumaş</li>
+                </ul>
+            </div>
+        </footer>
+
+        <!-- Modal için HTML -->
+        <div id="encryption-steps-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Şifreleme Adımları</h2>
+                <div id="encryption-steps-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

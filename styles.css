@@ -1,0 +1,302 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #27ae60;
+    --background-color: #ecf0f1;
+    --text-color: #333;
+    --step-background-color: #e6f2ff;
+    --step-border-color: #3498db;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: white;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 10px 10px;
+}
+
+.info-section {
+    text-align: center;
+}
+
+.algorithm-explanation {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.formula-box {
+    background-color: var(--background-color);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.formula-box code {
+    display: block;
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+.warning {
+    display: flex;
+    align-items: center;
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border-radius: 5px;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.tools-section {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.tool-container {
+    flex: 1;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tool-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.tool-header i {
+    font-size: 1.5rem;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.input-wrapper {
+    flex: 1;
+}
+
+.input-wrapper label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px; /* Butonlar arasına 10px boşluk */
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2ecc71;
+}
+
+.result-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    word-break: break-all;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 0 0 10px 10px;
+}
+
+.developers ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .tools-section {
+        flex-direction: column;
+    }
+    
+    .developers ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Modal Stilleri */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    max-height: 70%;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+#encryption-steps-content p {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.result-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Add space between result box and copy button */
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column; /* Change to vertical layout */
+    gap: 10px; /* Space between buttons */
+}
+
+#encryption-steps-modal .modal-content {
+    background-color: white;
+    border: 2px solid var(--step-border-color);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+#encryption-steps-content p {
+    margin-bottom: 10px;
+    padding: 15px;
+    background-color: var(--step-background-color);
+    border-left: 5px solid var(--step-border-color);
+    border-radius: 0 5px 5px 0;
+    font-family: monospace;
+    line-height: 1.6;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+#encryption-steps-content p:nth-child(even) {
+    background-color: #f0f8ff;
+}
+
+#encryption-steps-content p:hover {
+    background-color: #e0f0ff;
+}
+
+/* Remove decrypt steps button */
+#adim-adim-cozme {
+    display: none;
+}
