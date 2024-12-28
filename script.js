@@ -12,8 +12,14 @@ function modInverse(a, m) {
 }
 
 function validateA(a) {
-    // a ve m aralarında asal mı kontrol et
     return modInverse(a, M) !== null;
+}
+
+function turkishToUpper(text) {
+    return text
+        .replace(/i/g, 'İ')
+        .replace(/ı/g, 'I')
+        .toUpperCase();
 }
 
 function sifreleme(metin, a, b) {
@@ -21,7 +27,7 @@ function sifreleme(metin, a, b) {
         return 'Hata: a değeri 29 ile aralarında asal olmalıdır.';
     }
 
-    return metin.toUpperCase().split('').map(harf => {
+    return turkishToUpper(metin).split('').map(harf => {
         const index = TURKISH_ALPHABET.indexOf(harf);
         if (index === -1) {
             return harf; // Türk alfabesi dışındaki karakterleri olduğu gibi bırak
@@ -38,14 +44,27 @@ function cozme(sifreliMetin, a, b) {
 
     const aInverse = modInverse(a, M);
     
-    return sifreliMetin.toUpperCase().split('').map(harf => {
+    return sifreliMetin.split('').map(harf => {
         const index = TURKISH_ALPHABET.indexOf(harf);
         if (index === -1) {
-            return harf; // Türk alfabesi dışındaki karakterleri olduğu gibi bırak
+            return harf;
         }
         const cozulmusIndex = (aInverse * (index - b + M)) % M;
         return TURKISH_ALPHABET[cozulmusIndex];
     }).join('');
+}
+
+// Türk alfabesi için geçerli a değerlerini bulma fonksiyonu
+function findValidAValues() {
+    return Array.from({length: M}, (_, i) => i + 1)
+        .filter(a => modInverse(a, M) !== null);
+}
+
+function generateRandomValues() {
+    const validAValues = findValidAValues();
+    const randomA = validAValues[Math.floor(Math.random() * validAValues.length)];
+    const randomB = Math.floor(Math.random() * M);
+    return { a: randomA, b: randomB };
 }
 
 // Şifreleme Form İşlemi
@@ -75,19 +94,6 @@ document.getElementById('cozme-formu').addEventListener('submit', function(e) {
     document.getElementById('cozme-sonuc').textContent = sonuc;
 });
 
-// Türk alfabesi için geçerli a değerlerini bulma fonksiyonu
-function findValidAValues() {
-    return Array.from({length: M}, (_, i) => i + 1)
-        .filter(a => modInverse(a, M) !== null);
-}
-
-function generateRandomValues() {
-    const validAValues = findValidAValues();
-    const randomA = validAValues[Math.floor(Math.random() * validAValues.length)];
-    const randomB = Math.floor(Math.random() * M);
-    return { a: randomA, b: randomB };
-}
-
 // Şifreleme formu için rastgele değer butonu
 document.getElementById('rastgele-a-b-sifreleme').addEventListener('click', function() {
     const { a, b } = generateRandomValues();
@@ -95,6 +101,7 @@ document.getElementById('rastgele-a-b-sifreleme').addEventListener('click', func
     document.getElementById('b-deger').value = b;
 });
 
+// Kopyalama butonları için işlemler
 document.getElementById('kopyala-sifreleme').addEventListener('click', function() {
     const sonuc = document.getElementById('sifreleme-sonuc').textContent;
     navigator.clipboard.writeText(sonuc).then(() => {
@@ -115,24 +122,27 @@ document.getElementById('kopyala-cozme').addEventListener('click', function() {
     });
 });
 
+// Adım adım gösterim fonksiyonları
 function generateEncryptionSteps(metin, a, b) {
     const steps = [];
+    const buyukHarfMetin = turkishToUpper(metin);
     steps.push(`Başlangıç metni: ${metin}`);
     
-    const sifreliMetin = metin.toUpperCase().split('').map((harf, index) => {
-        const turkishIndex = TURKISH_ALPHABET.indexOf(harf);
-        if (turkishIndex === -1) {
+    buyukHarfMetin.split('').forEach((harf, index) => {
+        const alfabeIndex = TURKISH_ALPHABET.indexOf(harf);
+        if (alfabeIndex === -1) {
             steps.push(`${index + 1}. adım: "${harf}" Türk alfabesinde değil, değiştirilmedi.`);
-            return harf;
+            return;
         }
         
-        const sifreliIndex = (a * turkishIndex + b) % M;
-        steps.push(`${index + 1}. adım: "${harf}" (index: ${turkishIndex}) → "${TURKISH_ALPHABET[sifreliIndex]}" (index: ${sifreliIndex}) | Formül: (${a} * ${turkishIndex} + ${b}) mod ${M} = ${sifreliIndex}`);
-        
-        return TURKISH_ALPHABET[sifreliIndex];
-    }).join('');
+        const sifreliIndex = (a * alfabeIndex + b) % M;
+        steps.push(`${index + 1}. adım: "${harf}" (index: ${alfabeIndex}) → "${TURKISH_ALPHABET[sifreliIndex]}" (index: ${sifreliIndex}) | Formül: (${a} * ${alfabeIndex} + ${b}) mod ${M} = ${sifreliIndex}`);
+    });
 
-    return { sifreliMetin, steps };
+    return { 
+        sifreliMetin: sifreleme(metin, a, b),
+        steps 
+    };
 }
 
 function showEncryptionSteps() {
